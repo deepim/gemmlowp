@@ -22,11 +22,13 @@ namespace meta {
 
 inline int ResolveMaxThreads(int max_threads) {
   if (max_threads == 0) {
-    static const int hardware_threads_count =
-        static_cast<int>(sysconf(_SC_NPROCESSORS_CONF));
-    return hardware_threads_count;
+    //static const int hardware_threads_count =
+    //    static_cast<int>(sysconf(_SC_NPROCESSORS_CONF));
+    //return hardware_threads_count;
+    return 1;
   }
-  return max_threads;
+  //return max_threads;
+  return 1;
 }
 
 template <typename WorkersPool>

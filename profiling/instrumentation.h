@@ -61,6 +61,10 @@ using ::uintptr_t;
 #define GEMMLOWP_THREAD_LOCAL thread_local
 #endif
 
+#if defined WIN32
+#include <intrin.h>
+#endif
+
 namespace gemmlowp {
 
 inline void ReleaseBuildAssertion(bool condition, const char* msg) {
@@ -104,8 +108,11 @@ struct AutoGlobalLock {
 //   2) It requires the compiler to assume that any value previously
 //     read from memory, may have changed. Thus it offers an alternative
 //     to using 'volatile' variables.
+#if defined WIN32
+inline void MemoryBarrier() { _ReadWriteBarrier(); }
+#else
 inline void MemoryBarrier() { asm volatile("" ::: "memory"); }
-
+#endif
 // Profiling definitions. Two paths: when profiling is enabled,
 // and when profiling is disabled.
 #ifdef GEMMLOWP_PROFILING

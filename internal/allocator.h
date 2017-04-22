@@ -58,6 +58,10 @@
 #endif
 #endif
 
+#if defined WIN32
+#define posix_memalign(p, a, s) (((*(p)) = _aligned_malloc((s), (a))), *(p) ?0 :errno)
+#endif
+
 namespace gemmlowp {
 
 enum class TypeId : std::uint8_t { Uint8, Int8, Uint16, Int16, Uint32, Int32 };
